@@ -16,7 +16,6 @@ const Loader = () => (
 
 const SignUp = () => {
   const history = useHistory();
-
   const [isSignUp, setIsSignUp] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -28,7 +27,6 @@ const SignUp = () => {
 
   const handleSignUpClick = () => setIsSignUp(true);
   const handleSignInClick = () => setIsSignUp(false);
-
   const handleShowPassword = () => setShowPassword(!showPassword);
   const handleShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
   const handleShowLoginPassword = () => setShowLoginPassword(!showLoginPassword);
@@ -90,7 +88,7 @@ const SignUp = () => {
     onSubmit: async (values) => {
       setIsLoading(true);
       try {
-        const response = await fetch("http://localhost:5000/signup", {
+        const response = await fetch("http://localhost:5000/users", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -128,7 +126,7 @@ const SignUp = () => {
     onSubmit: async (values) => {
       setIsLoading(true);
       try {
-        const response = await fetch("http://localhost:5000/login", {
+        const response = await fetch("http://localhost:5000/users/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -140,7 +138,7 @@ const SignUp = () => {
         });
         const data = await response.json();
         setIsLoading(false);
-
+  
         if (response.ok) {
           if (data.token) {
             localStorage.setItem("token", data.token);
@@ -231,6 +229,10 @@ const SignUp = () => {
           </div>
           {signUpFormik.errors.confirmPassword && <div className="error-message">{signUpFormik.errors.confirmPassword}</div>}
           <button className="signup" type="submit">Sign Up</button>
+          <div className="signin">
+            <p>Already have an account?</p>
+            <Link to="#" onClick={handleSignInClick}>Sign In</Link>
+          </div>
         </form>
       </div>
       <div className={`form-container sign-in ${isSignUp ? "" : "active"}`}>
@@ -241,7 +243,7 @@ const SignUp = () => {
             alt="Logo"
           />
           <h1>Sign In</h1>
-          <h5>Enter your Email and Password</h5>
+          <h5>Enter your details to continue</h5>
           <input
             type="email"
             placeholder="Email"
